@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>YAPF Online Demo</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <style>
+      blockquote {
+        font-size: 14px;
+      }
+
+      .try-wrapper {
+        position: relative;
+      }
+
+      .arrow {
+        position: absolute;
+        left: 50%;
+        margin: -9px;
+        top: 40%;
+      }
+
+      #editor, #result {
+        margin: 0;
+        width: 100%;
+        height: 400px;
+        font: 12px/normal Monaco,Menlo,'Ubuntu Mono',Consolas,source-code-pro,monospace;
+      }
+
+      .source {
+        display: none;
+      }
+
+      .footer {
+        padding: 10px;
+        margin: 10px 0;
+        border-top: 1px solid #cccccc;
+        color: #7f7f7f;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <h1>YAPF Online Demo</h1>
+          <p>An <a target="_blank" href="https://github.com/google/yapf">open-source</a> formatter for Python files owned by Google.</p>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-12">
+          <blockquote>
+            <p>Most of the current formatters for Python --- e.g., autopep8, and pep8ify --- are made to remove lint errors from code. This has some obvious limitations. For instance, code that conforms to the PEP 8 guidelines may not be reformatted. But it doesn't mean that the code looks good.</p>
+
+            <p>YAPF takes a different approach. It's based off of 'clang-format', developed by Daniel Jasper. In essence, the algorithm takes the code and reformats it to the best formatting that conforms to the style guide, even if the original code didn't violate the style guide. The idea is also similar to the 'gofmt' tool for the Go programming language: end all holy wars about formatting - if the whole code base of a project is simply piped through YAPF whenever modifications are made, the style remains consistent throughout the project and there's no point arguing about style in every code review.</p>
+
+            <p>The ultimate goal is that the code YAPF produces is as good as the code that a programmer would write if they were following the style guide. It takes away some of the drudgery of maintaining your code.</p>
+          </blockquote>
+        </div>
+      </div>
+
+      {% if error %}
+        <div class="row">
+          <div class="col-md-12">
+            <div class="alert alert-danger alert-dismissible">
+              <button type="button" class="close" data-dismiss="alert"><span>&times;</span></button>
+              <strong>Oops!</strong> Exception: {{ error }}
+            </div>
+          </div>
+        </div>
+      {% endif %}
+
+      <div class="row try-wrapper">
+        <span class="arrow glyphicon glyphicon-arrow-right"></span>
+        <div class="col-md-6">
+          <form action="" method="POST">
+            <div class="form-group">
+              <div id="editor" class="ace_editor ace-monokai ace_dark">{{ source }}</div>
+              <textarea class="source" name="source">{{ source }}</textarea>
+            </div>
+            <div class="form-group">
+              <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+          </form>
+        </div>
+        <div class="col-md-6">
+          <div id="result" class="ace_editor ace-monokai ace_dark">{{ formatted }}</div>
+        </div>
+      </div>
+
+      <div class="footer">
+        <p class="text-center">
+          Hacked together by <a href="http://jpadilla.com">José Padilla</a>. <br>
+          Built using yapf v{{ yapf_version }}
+        </p>
+      </div>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.9/ace.js"></script>
+
+    <script>
+      $(document).ready(function() {
+        var editor = ace.edit("editor");
+        editor.setTheme("ace/theme/monokai");
+        editor.getSession().setMode("ace/mode/python");
+
+        var result = ace.edit("result");
+        result.setTheme("ace/theme/monokai");
+        result.getSession().setMode("ace/mode/python");
+        result.setReadOnly(true);
+
+        var textarea = $('textarea[name="source"]');
+        editor.getSession().setValue(textarea.val());
+        editor.getSession().on('change', function(){
+          textarea.val(editor.getSession().getValue());
+        });
+      });
+    </script>
+  </body>
+</html>
