@@ -1,0 +1,21 @@
+[[source]]
+
+url = "https://pypi.python.org/simple"
+verify_ssl = true
+name = "pypi"
+
+
+[dev-packages]
+
+
+
+[packages]
+
+Flask = "==0.10.1"
+gunicorn = "==19.3.0"
+yapf = "==0.20.0"
+
+
+[requires]
+
+python_version = "3.6"
