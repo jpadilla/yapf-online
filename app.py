@@ -4,11 +4,9 @@ import yapf
 from yapf.yapflib import yapf_api
 from flask import Flask, render_template, request
 
-
 app = Flask(__name__)
 
-SOURCE_CODE = textwrap.dedent(
-    """
+SOURCE_CODE = textwrap.dedent("""
     x = {  'a':37,'b':42,
 
     'c':927}
@@ -24,8 +22,7 @@ SOURCE_CODE = textwrap.dedent(
     def f  (   a ) :
       return      37-a[42-x :  y**3]
 
-    """
-)
+    """)
 
 
 @app.route('/', methods=['POST', 'GET'])
@@ -36,7 +33,7 @@ def index():
         source = request.form['source']
 
     try:
-        formatted = yapf_api.FormatCode(source)
+        formatted, _ = yapf_api.FormatCode(source)
         error = None
     except Exception as error:
         formatted = ''
