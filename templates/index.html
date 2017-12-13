@@ -45,6 +45,12 @@
         border-top: 1px solid #cccccc;
         color: #7f7f7f;
       }
+
+      .style-config-control label {
+        padding: 7px 0 0 0;
+        margin-bottom: 0;
+        text-align: right;
+      }
     </style>
   </head>
   <body>
@@ -85,7 +91,20 @@
               <textarea class="source" name="source">{{ source }}</textarea>
             </div>
             <div class="form-group">
-              <button type="submit" class="btn btn-primary">Submit</button>
+              <div class="style-config-control col-md-5">
+                <label class="col-sm-2 control-label">Style</label>
+                <div class="col-md-10">
+                  <select class="form-control" name="style_config">
+                    <option value="pep8" {% if style_config == "pep8" %}selected{% endif %}>pep8</option>
+                    <option value="chromium" {% if style_config == "chromium" %}selected{% endif %}>chromium</option>
+                    <option value="google" {% if style_config == "google" %}selected{% endif %}>google</option>
+                    <option value="facebook" {% if style_config == "facebook" %}selected{% endif %}>facebook</option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-md-7">
+                <button type="submit" class="btn btn-primary">Submit</button>
+              </div>
             </div>
           </form>
         </div>

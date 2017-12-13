@@ -28,12 +28,14 @@ SOURCE_CODE = textwrap.dedent("""
 @app.route('/', methods=['POST', 'GET'])
 def index():
     source = SOURCE_CODE
+    style_config = 'pep8'
 
     if request.method == 'POST':
         source = request.form['source']
+        style_config = request.form['style_config']
 
     try:
-        formatted, _ = yapf_api.FormatCode(source)
+        formatted, _ = yapf_api.FormatCode(source, style_config=style_config)
         error = None
     except Exception as error:
         formatted = ''
@@ -41,6 +43,7 @@ def index():
     data = {
         'source': source,
         'formatted': formatted,
+        'style_config': style_config,
         'error': error,
         'yapf_version': yapf.__version__
     }
