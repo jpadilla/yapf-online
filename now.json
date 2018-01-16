@@ -1,0 +1,5 @@
+{
+  "name": "yapf-demo",
+  "alias": "yapf",
+  "type": "docker"
+}
