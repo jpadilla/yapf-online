@@ -34,17 +34,22 @@ def index():
         source = request.form['source']
         style_config = request.form['style_config']
 
+    error = ''
+    error_class = ''
+
     try:
         formatted, _ = yapf_api.FormatCode(source, style_config=style_config)
-        error = None
-    except Exception as error:
+    except Exception as e:
         formatted = ''
+        error = e
+        error_class = e.__class__.__name__
 
     data = {
         'source': source,
         'formatted': formatted,
         'style_config': style_config,
         'error': error,
+        'error_class': error_class,
         'yapf_version': yapf.__version__
     }
 
